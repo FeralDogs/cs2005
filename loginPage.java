@@ -64,6 +64,15 @@ public class loginPage {
 		login_username_field.setBounds(181, 51, 116, 22);
 		frame.getContentPane().add(login_username_field);
 		login_username_field.setColumns(10);
+                login_username_field.setText("");
+                
+                login_password_field = new JPasswordField();
+                login_username_field.setText("");
+                
+                
+		login_password_field.setBounds(181, 98, 116, 22);
+                
+                
 		
 		JLabel lblEnterPassword = new JLabel("enter password");
 		lblEnterPassword.setBounds(66, 101, 91, 16);
@@ -85,8 +94,10 @@ public class loginPage {
 							
                                                         
                                                         frame.setVisible(false);
-                                                        User user=new User("boo","jim");
-							TrackerGui tracker = new TrackerGui(user);
+                                                        //User user=new User("boo","jim");
+                                                        
+                                                        User currentUser = new User(tempUsername, tempPassword);
+							TrackerGui tracker = new TrackerGui(currentUser);
                                                         
                                                         
 							tracker.setVisible(true);
@@ -121,8 +132,7 @@ public class loginPage {
 		btnSignUp.setBounds(60, 243, 97, 25);
 		frame.getContentPane().add(btnSignUp);
 		
-		login_password_field = new JPasswordField();
-		login_password_field.setBounds(181, 98, 116, 22);
+                
 		frame.getContentPane().add(login_password_field);
 	}
 }

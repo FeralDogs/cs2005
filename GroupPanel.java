@@ -3,7 +3,7 @@ package javaapplication37;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Rectangle;
-import static javaapplication37.CreateAccount.users;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -25,38 +25,31 @@ public class GroupPanel extends JPanel {
     private JTextField field2 = new JTextField(16);
     private JLabel label3 = new JLabel("altitude");
     private JTextField field3 = new JTextField(16);
+    private JLabel label4 = new JLabel("Date");
+    private JTextField field4 = new JTextField(16);
+
     JScrollPane sp = new JScrollPane();
 
-    
-    
-    
-    
-    
-    public void setField1(String s){
+    public void setField1(String s) {
         field3.setText(s);
     }
-    
-    
-    
-    
-    
+
     public GroupPanel(User.Run run) {
-        
-        this.setBorder(BorderFactory.createTitledBorder("Name " + run.getName() ));
+
+        this.setBorder(BorderFactory.createTitledBorder("Name " + run.getName()));
         GroupLayout l = new GroupLayout(this);
-        System.out.println("User name" + run.getName());
+        System.out.println("User name " + run.getName());
 
-        
-            
-//            double distance = Double.toString(Math.random());
-//            double altitude = Double.toString(Math.random());
-//            double time = Double.toString(Math.random());
-
-            field1.setText(Double.toString(run.getDistance()));
-            field2.setText(Double.toString(run.getAltitude()));
-            field3.setText(Double.toString(run.getTime()));;
+           //double distance = Double.toString(Math.random());
+           // double altitude = Double.toString(Math.random());
+            //double time = Double.toString(Math.random());
+        field1.setText(run.getDistance());
+        field2.setText(run.getAltitude());
+        field3.setText(run.getTime());
+        field4.setText(run.getDate());
         
 
+        
         this.setLayout(l);
 
         l.setAutoCreateGaps(true);
@@ -65,11 +58,17 @@ public class GroupPanel extends JPanel {
                 .addGroup(l.createParallelGroup(GroupLayout.Alignment.TRAILING)
                         .addComponent(label1)
                         .addComponent(label2)
-                        .addComponent(label3))
+                        .addComponent(label3)
+                        .addComponent(label4)
+                        
+                        
+                )
                 .addGroup(l.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(field1)
                         .addComponent(field2)
                         .addComponent(field3)
+                        .addComponent(field4)
+                        
                 )
         );
 
@@ -83,20 +82,20 @@ public class GroupPanel extends JPanel {
                 .addGroup(l.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(label3)
                         .addComponent(field3)
-                        .addGroup(l.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(label3)
-                                .addComponent(field3))
-                        .addGroup(l.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(label3)
-                                .addComponent(field3))
                 )
+                .addGroup(l.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(label4)
+                        .addComponent(field4)
+                )
+                
+                
+                
+                
         );
 
         sp.setToolTipText("test");
         sp.add(this);
     }
-
-    
 
     public static void main(String[] args) {
 

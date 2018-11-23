@@ -23,24 +23,69 @@ public class TrackerGui extends JFrame {
     private Map<String, JButton> buttonMap = new HashMap<String, JButton>();
 
     static private User currentUser;
-    
-    
-    
-    public void setUser(User user){
-        currentUser=user;
+
+    ArrayList<String> fr = new ArrayList<String>();
+    ArrayList<String> ch = new ArrayList<String>();
+
+    static boolean updatedItem = false;
+
+    JComboBox friendList = new JComboBox();
+
+    JComboBox choice = new JComboBox();
+
+    String choiceSelected = "";
+    String friendSelected = "";
+
+    ActionListener cbActionListener1 = new ActionListener() {//add actionlistner to listen for change
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String s = (String) choice.getSelectedItem();//get the selected item
+            System.out.println("choice :" + s);
+            switch (s) {//check for a match
+                case "Choose":
+                    break;
+                case "Accept":
+                    choiceSelected = s;
+                    break;
+                case "Decline":
+                    choiceSelected = s;
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    ActionListener cbActionListener2 = new ActionListener() {//add actionlistner to listen for change
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            String s = (String) friendList.getSelectedItem();//get the selected item
+            System.out.println("friend:" + s);
+            switch (s) {//check for a match
+                case "Friends":
+                    break;
+                default:
+                    friendSelected = s;
+                    break;
+            }
+        }
+    };
+
+    public void setUser(User user) {
+        currentUser = user;
     }
-    
-    public User getUser(){
+
+    public User getUser() {
         return currentUser;
     }
-    
-    
-    
+
     static ArrayList<User> users = new ArrayList<User>();
 
     private String[] buttonLabels = {
         "Friend's List", "Edit Profile", "UpdateStats",
-        "My Statistics", "ActivityTracker", "Logo"
+        "My Statistics", "ActivityTracker", "Logo", "Update"
     };
 
     /**
@@ -66,7 +111,7 @@ public class TrackerGui extends JFrame {
         if (button.equals("Friend's List")) {
             buttonMap.get(button).addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent arg0) {
+                public void actionPerformed(ActionEvent e) {
                     System.out.println("Hello from button");
                 }
             });
@@ -74,7 +119,7 @@ public class TrackerGui extends JFrame {
         if (button.equals("Edit Profile")) {
             buttonMap.get(button).addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent arg0) {
+                public void actionPerformed(ActionEvent e) {
                     System.out.println("Hello from button");
                 }
             });
@@ -82,10 +127,41 @@ public class TrackerGui extends JFrame {
         if (button.equals("UpdateStats")) {
             buttonMap.get(button).addActionListener(new ActionListener() {
                 @Override
-                public void actionPerformed(ActionEvent arg0) {
+                public void actionPerformed(ActionEvent e) {
                     System.out.println("Hello from button");
                 }
             });
+        }
+
+        if (button.equals("Update")) {
+            buttonMap.get(button).addActionListener(new ActionListener() {
+                @Override
+
+                public void actionPerformed(ActionEvent e) {
+
+                    String s = (String) friendList.getSelectedItem();
+                    String c = (String) choice.getSelectedItem();
+
+                    switch (c) {//check for a match
+                        case "Choose":
+                            break;
+                        case "Accept":
+                            fr.add(s);
+
+                            updatedItem = true;
+                            break;
+                        case "Decline":
+                            fr.remove(s);
+                            updatedItem = true;
+                            
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            });
+          
         }
 
         //etc.
@@ -105,11 +181,32 @@ public class TrackerGui extends JFrame {
      * Create the application.
      */
     public TrackerGui(User currentUser) {
-        
-        
-       
+
         super("my frame");
-        this.currentUser=currentUser;
+
+       
+        
+
+        String cwd = System.getProperty("user.dir");
+        System.out.println("Current working directory : " + cwd);
+
+        fr.add("Friends");
+        fr.add("David");
+        ch.add("Choose");
+        ch.add("Accept");
+        ch.add("Decline");
+
+        friendList.setModel(new DefaultComboBoxModel(fr.toArray()));
+        choice.setModel(new DefaultComboBoxModel(ch.toArray()));
+
+        choice.addActionListener(cbActionListener1);
+        friendList.addActionListener(cbActionListener2);
+
+        friendList.setSize(200, 200);
+
+        choice.setSize(200, 200);
+
+        this.currentUser = currentUser;
         this.setBounds(200, 200, 1182, 779);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -125,58 +222,48 @@ public class TrackerGui extends JFrame {
 
         }
 
-        
-        if (loginPage.loginSucess){
+        if (loginPage.loginSucess) {
             TrackerGui.users.add(currentUser);
         }
-        
-        User obj = new User("bob", "3");
-        TrackerGui.users.add(obj);
-        User obj2 = new User("john", "3");
-        TrackerGui.users.add(obj2);
-        User obj3 = new User("dave", "3");
-        TrackerGui.users.add(obj3);
-        User obj4 = new User("jill", "3");
-        TrackerGui.users.add(obj4);
+
+      
 
         JPanel groupPanel = new JPanel();
-        
+
         JPanel groupPanel2 = new JPanel();
-        
-        
-        
-        
+
         groupPanel.setLayout(new GridLayout(1, 0));
         JScrollPane scrollPane = new JScrollPane(groupPanel);
 
-        for (int i = 0; i < TrackerGui.users.size(); i++) {
+        for (int i = 0; i < CreateAccount.users.size(); i++) {
 
-            User user = TrackerGui.users.get(i);
+            String currentName = CreateAccount.users.get(1).getUser();
+            User user = CreateAccount.users.get(i);
 
             for (int j = 0; j < user.runs.size(); j++) {
 
                 GroupPanel p = new GroupPanel(user.runs.get(j));
+
+               
+
+                System.out.println("i" + i);
+
+                groupPanel.add(p);
                 
-                if (i>0){
+                if (!currentName.equals(user.getUser())) {
                     enableComponents(p, false);
                 }
                 
-                System.out.println("i" + i);
                 
-                
-               
-               groupPanel.add(p);
-               
-               //enableComponents(groupPanel, false);
-               
-               
-               
 
             }
 
             this.add(scrollPane);
-            ;
+
         }
+
+        //this.add(friendList);
+        //this.add(choice);
 
     }
 
